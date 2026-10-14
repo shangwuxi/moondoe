@@ -120,25 +120,25 @@ pub fn validate_plan(p : Plan) -> Unit raise DesignError {
 }
 
 ///|
-pub extend DesignError with @moonbitlang/core/debug.Debug::{to_repr}
+pub extend DesignError with @debug.Debug::{to_repr}
 
 ///|
 pub extend DesignError with Eq::{equal, not_equal}
 
 ///|
-pub extend Factor with @moonbitlang/core/debug.Debug::{to_repr}
+pub extend Factor with @debug.Debug::{to_repr}
 
 ///|
 pub extend Factor with Eq::{equal, not_equal}
 
 ///|
-pub extend Run with @moonbitlang/core/debug.Debug::{to_repr}
+pub extend Run with @debug.Debug::{to_repr}
 
 ///|
 pub extend Run with Eq::{equal, not_equal}
 
 ///|
-pub extend Plan with @moonbitlang/core/debug.Debug::{to_repr}
+pub extend Plan with @debug.Debug::{to_repr}
 
 ///|
 pub extend Plan with Eq::{equal, not_equal}
