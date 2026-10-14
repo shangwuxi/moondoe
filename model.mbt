@@ -15,7 +15,7 @@ pub(all) struct Factor {
 ///|
 pub(all) struct Run {
   id : String
-  block : Int
+  block : Int32
   point : Array[Double]
 } derive(Debug, Eq)
 

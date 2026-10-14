@@ -45,7 +45,7 @@ fn json_number(value : Json) -> Double raise DesignError {
 }
 
 ///|
-fn json_array(value : Json, limit : Int) -> Array[Json] raise DesignError {
+fn json_array(value : Json, limit : Int32) -> Array[Json] raise DesignError {
   let a = match value {
     Array(x) => x
     _ => raise Invalid("JSON array required")
@@ -62,23 +62,23 @@ pub fn plan_json(p : Plan) -> String raise DesignError {
   let fs : Array[Json] = [
     for f in p.factors => {
       Json::object({
-        "name": f.name.to_json(),
-        "low": f.low.to_json(),
-        "high": f.high.to_json(),
+        "name": Json(f.name),
+        "low": Json(f.low),
+        "high": Json(f.high),
       })
     }
   ]
   let rs : Array[Json] = [
     for r in p.runs => {
       Json::object({
-        "id": r.id.to_json(),
-        "block": r.block.to_json(),
-        "point": r.point.to_json(),
+        "id": Json(r.id),
+        "block": Json(r.block),
+        "point": Json(r.point),
       })
     }
   ]
   Json::object({
-    "schema": "moondoe/1".to_json(),
+    "schema": Json("moondoe/1"),
     "factors": Json::array(fs),
     "runs": Json::array(rs),
   }).stringify()
@@ -138,23 +138,23 @@ pub fn diagnostics_json(
   let aliases : Array[Json] = [
     for pair in d.exact_aliases => {
       Json::object({
-        "left": pair.left.to_json(),
-        "right": pair.right.to_json(),
-        "correlation": pair.correlation.to_json(),
+        "left": Json(pair.left),
+        "right": Json(pair.right),
+        "correlation": Json(pair.correlation),
       })
     }
   ]
   Json::object({
-    "runs": d.runs.to_json(),
-    "terms": d.terms.to_json(),
-    "rank": d.rank.to_json(),
-    "estimable": d.estimable.to_json(),
-    "residual_dof": d.residual_dof.to_json(),
-    "zero_columns": d.zero_columns.to_json(),
+    "runs": Json(d.runs),
+    "terms": Json(d.terms),
+    "rank": Json(d.rank),
+    "estimable": Json(d.estimable),
+    "residual_dof": Json(d.residual_dof),
+    "zero_columns": Json(d.zero_columns),
     "exact_aliases": Json::array(aliases),
-    "max_abs_correlation": d.max_abs_correlation.to_json(),
+    "max_abs_correlation": Json(d.max_abs_correlation),
     "log_determinant": match d.log_determinant {
-      Some(x) => x.to_json()
+      Some(x) => Json(x)
       None => Json::null()
     },
   }).stringify()

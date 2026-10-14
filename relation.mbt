@@ -1,7 +1,7 @@
 ///|
 pub(all) struct DefiningWord {
-  mask : Int
-  sign : Int
+  mask : Int32
+  sign : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -11,7 +11,7 @@ pub extend DefiningWord with @debug.Debug::{to_repr}
 pub extend DefiningWord with Eq::{equal, not_equal}
 
 ///|
-fn parity(x : Int) -> Int {
+fn parity(x : Int32) -> Int32 {
   let mut n = x
   let mut count = 0
   while n > 0 {
@@ -23,7 +23,7 @@ fn parity(x : Int) -> Int {
 
 ///|
 pub fn defining_relation(
-  base : Int,
+  base : Int32,
   generators : Array[Generator],
 ) -> Array[DefiningWord] raise DesignError {
   if base < 1 ||
@@ -48,10 +48,10 @@ pub fn defining_relation(
 
 ///|
 pub fn resolution(
-  base : Int,
+  base : Int32,
   generators : Array[Generator],
-) -> Int? raise DesignError {
-  let mut result : Int? = None
+) -> Int32? raise DesignError {
+  let mut result : Int32? = None
   for word in defining_relation(base, generators) {
     if word.mask != 0 {
       let length = parity(word.mask)
@@ -66,8 +66,8 @@ pub fn resolution(
 
 ///|
 pub fn aliases(
-  effect : Int,
-  base : Int,
+  effect : Int32,
+  base : Int32,
   generators : Array[Generator],
 ) -> Array[DefiningWord] raise DesignError {
   let words = defining_relation(base, generators)
@@ -81,7 +81,7 @@ pub fn aliases(
 
 ///|
 pub fn effect_name(
-  mask : Int,
+  mask : Int32,
   names : Array[String],
 ) -> String raise DesignError {
   if names.length() > 16 || mask < 0 || mask >= 1 << names.length() {

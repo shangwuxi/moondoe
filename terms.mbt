@@ -1,7 +1,7 @@
 ///|
 pub(all) struct Term {
   name : String
-  powers : Array[Int]
+  powers : Array[Int32]
 } derive(Debug, Eq)
 
 ///|
@@ -13,7 +13,7 @@ pub extend Term with Eq::{equal, not_equal}
 ///|
 pub fn terms(
   factors : Array[Factor],
-  order : Int,
+  order : Int32,
 ) -> Array[Term] raise DesignError {
   validate_factors(factors)
   if order < 0 || order > 2 {
@@ -48,7 +48,7 @@ pub fn terms(
 }
 
 ///|
-fn validate_terms(model : Array[Term], k : Int) -> Unit raise DesignError {
+fn validate_terms(model : Array[Term], k : Int32) -> Unit raise DesignError {
   if model.length() == 0 || model.length() > 128 {
     raise Budget("term count must be 1..128")
   }

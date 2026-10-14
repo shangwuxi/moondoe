@@ -3,10 +3,10 @@ pub(all) struct ErrorPartition {
   residual_sse : Double
   pure_error_sse : Double
   lack_of_fit_sse : Double
-  pure_error_dof : Int
-  lack_of_fit_dof : Int
+  pure_error_dof : Int32
+  lack_of_fit_dof : Int32
   f_ratio : Double?
-  groups : Int
+  groups : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -20,12 +20,12 @@ pub fn partition_error(
   p : Plan,
   model : Array[Term],
   responses : Array[Double],
-  separate_blocks? : Bool = true,
+  separate_blocks~ : Bool = true,
 ) -> ErrorPartition raise DesignError {
   validate_plan(p)
   let fit = fit_plan(p, model, responses)
-  let representatives : Array[Int] = []
-  let members : Array[Array[Int]] = []
+  let representatives : Array[Int32] = []
+  let members : Array[Array[Int32]] = []
   for i, r in p.runs {
     let mut group = -1
     for j, index in representatives {

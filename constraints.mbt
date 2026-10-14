@@ -15,7 +15,7 @@ pub extend LinearConstraint with Eq::{equal, not_equal}
 pub fn filter_candidates(
   p : Plan,
   constraints : Array[LinearConstraint],
-  tol? : Double = 1.0e-10,
+  tol~ : Double = 1.0e-10,
 ) -> Plan raise DesignError {
   tolerance(tol)
   validate_plan(p)

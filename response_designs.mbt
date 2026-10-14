@@ -2,7 +2,7 @@
 pub fn central_composite(
   factors : Array[Factor],
   alpha : Double,
-  centers? : Int = 1,
+  centers~ : Int32 = 1,
 ) -> Plan raise DesignError {
   validate_factors(factors)
   require_number(alpha)
@@ -33,7 +33,7 @@ pub fn central_composite(
 ///|
 pub fn box_behnken(
   factors : Array[Factor],
-  centers? : Int = 1,
+  centers~ : Int32 = 1,
 ) -> Plan raise DesignError {
   validate_factors(factors)
   let k = factors.length()

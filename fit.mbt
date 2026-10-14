@@ -4,7 +4,7 @@ pub(all) struct Fit {
   fitted : Array[Double]
   residuals : Array[Double]
   sse : Double
-  dof : Int
+  dof : Int32
   variance : Double?
 } derive(Debug, Eq)
 
@@ -18,8 +18,8 @@ pub extend Fit with Eq::{equal, not_equal}
 pub fn least_squares(
   a : Array[Array[Double]],
   responses : Array[Double],
-  weights? : Array[Double] = [],
-  tol? : Double = 1.0e-10,
+  weights~ : Array[Double] = [],
+  tol~ : Double = 1.0e-10,
 ) -> Fit raise DesignError {
   tolerance(tol)
   let (n, p) = matrix_shape(a)

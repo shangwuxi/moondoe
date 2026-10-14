@@ -13,10 +13,10 @@ pub extend AliasPair with Eq::{equal, not_equal}
 
 ///|
 pub(all) struct Diagnostics {
-  runs : Int
-  terms : Int
-  rank : Int
-  residual_dof : Int
+  runs : Int32
+  terms : Int32
+  rank : Int32
+  residual_dof : Int32
   estimable : Bool
   zero_columns : Array[String]
   exact_aliases : Array[AliasPair]
@@ -34,7 +34,7 @@ pub extend Diagnostics with Eq::{equal, not_equal}
 pub fn diagnose(
   p : Plan,
   model : Array[Term],
-  tol? : Double = 1.0e-10,
+  tol~ : Double = 1.0e-10,
 ) -> Diagnostics raise DesignError {
   tolerance(tol)
   let a = design_matrix(p, model)
@@ -101,7 +101,7 @@ pub fn diagnose(
 pub fn alias_matrix(
   fitted : Array[Array[Double]],
   omitted : Array[Array[Double]],
-  tol? : Double = 1.0e-10,
+  tol~ : Double = 1.0e-10,
 ) -> Array[Array[Double]] raise DesignError {
   let (n, p) = matrix_shape(fitted)
   let (m, q) = matrix_shape(omitted)

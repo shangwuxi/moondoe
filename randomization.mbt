@@ -4,7 +4,7 @@ priv struct DesignRng {
 }
 
 ///|
-fn rng(seed : Int) -> DesignRng raise DesignError {
+fn rng(seed : Int32) -> DesignRng raise DesignError {
   if seed < 1 || seed > 2147483646 {
     raise Invalid("seed must be 1..2147483646")
   }
@@ -12,7 +12,7 @@ fn rng(seed : Int) -> DesignRng raise DesignError {
 }
 
 ///|
-fn draw(random : DesignRng, bound : Int) -> Int {
+fn draw(random : DesignRng, bound : Int32) -> Int32 {
   let limit = 2147483646L / bound.to_int64() * bound.to_int64()
   let mut value = limit
   while value >= limit {
@@ -37,15 +37,15 @@ fn shuffled(runs : Array[Run], random : DesignRng) -> Array[Run] {
 ///|
 pub fn randomize(
   p : Plan,
-  seed : Int,
-  within_blocks? : Bool = false,
+  seed : Int32,
+  within_blocks~ : Bool = false,
 ) -> Plan raise DesignError {
   validate_plan(p)
   let random = rng(seed)
   if !within_blocks {
     return plan(p.factors, shuffled(p.runs, random))
   }
-  let blocks : Array[Int] = []
+  let blocks : Array[Int32] = []
   for r in p.runs {
     if !blocks.contains(r.block) {
       blocks.push(r.block)
@@ -67,8 +67,8 @@ pub fn randomize(
 ///|
 pub fn balanced_blocks(
   p : Plan,
-  count : Int,
-  seed : Int,
+  count : Int32,
+  seed : Int32,
 ) -> Plan raise DesignError {
   validate_plan(p)
   if count < 1 || count > 64 || count > p.runs.length() {
@@ -80,10 +80,10 @@ pub fn balanced_blocks(
 }
 
 ///|
-pub fn block_counts(p : Plan) -> Array[(Int, Int)] raise DesignError {
+pub fn block_counts(p : Plan) -> Array[(Int32, Int32)] raise DesignError {
   validate_plan(p)
-  let ids : Array[Int] = []
-  let counts : Array[Int] = []
+  let ids : Array[Int32] = []
+  let counts : Array[Int32] = []
   for r in p.runs {
     let mut index = -1
     for i, id in ids {

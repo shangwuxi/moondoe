@@ -1,5 +1,5 @@
 ///|
-fn matrix_shape(a : Array[Array[Double]]) -> (Int, Int) raise DesignError {
+fn matrix_shape(a : Array[Array[Double]]) -> (Int32, Int32) raise DesignError {
   if a.length() == 0 || a.length() > 4096 {
     raise Budget("matrix row count must be 1..4096")
   }
@@ -19,7 +19,7 @@ fn matrix_shape(a : Array[Array[Double]]) -> (Int, Int) raise DesignError {
 }
 
 ///|
-fn zeros(rows : Int, cols : Int) -> Array[Array[Double]] {
+fn zeros(rows : Int32, cols : Int32) -> Array[Array[Double]] {
   [
     for _ in 0..<rows => Array::make(cols, 0.0)
   ]
@@ -76,8 +76,8 @@ pub fn multiply(
 ///|
 pub fn matrix_rank(
   a : Array[Array[Double]],
-  tol? : Double = 1.0e-10,
-) -> Int raise DesignError {
+  tol~ : Double = 1.0e-10,
+) -> Int32 raise DesignError {
   tolerance(tol)
   let (n, p) = matrix_shape(a)
   let work = [ for row in a => row.copy() ]
@@ -127,7 +127,7 @@ pub fn matrix_rank(
 ///|
 pub fn information(
   a : Array[Array[Double]],
-  weights? : Array[Double] = [],
+  weights~ : Array[Double] = [],
 ) -> Array[Array[Double]] raise DesignError {
   let (n, p) = matrix_shape(a)
   if weights.length() != 0 && weights.length() != n {

@@ -1,8 +1,8 @@
 ///|
 pub fn foldover(
   p : Plan,
-  mask : Int,
-  include_original? : Bool = true,
+  mask : Int32,
+  include_original~ : Bool = true,
 ) -> Plan raise DesignError {
   validate_plan(p)
   if mask <= 0 || mask >= 1 << p.factors.length() {
@@ -25,7 +25,7 @@ pub fn foldover(
 }
 
 ///|
-pub fn replicate(p : Plan, copies : Int) -> Plan raise DesignError {
+pub fn replicate(p : Plan, copies : Int32) -> Plan raise DesignError {
   validate_plan(p)
   if copies < 1 || copies > 4096 / p.runs.length() {
     raise Budget("replication exceeds run budget")
@@ -42,8 +42,8 @@ pub fn replicate(p : Plan, copies : Int) -> Plan raise DesignError {
 ///|
 pub fn add_centers(
   p : Plan,
-  count : Int,
-  block? : Int = 0,
+  count : Int32,
+  block~ : Int32 = 0,
 ) -> Plan raise DesignError {
   validate_plan(p)
   if count < 0 || count > 4096 - p.runs.length() {

@@ -1,11 +1,11 @@
 ///|
 pub(all) struct OptimalResult {
   plan : Plan
-  indices : Array[Int]
+  indices : Array[Int32]
   initial_logdet : Double
   final_logdet : Double
   improvements : Array[Double]
-  exchanges : Int
+  exchanges : Int32
   converged : Bool
 } derive(Debug, Eq)
 
@@ -18,7 +18,7 @@ pub extend OptimalResult with Eq::{equal, not_equal}
 ///|
 fn selection_matrix(
   rows : Array[Array[Double]],
-  indices : Array[Int],
+  indices : Array[Int32],
 ) -> Array[Array[Double]] {
   [
     for i in indices => rows[i].copy()
@@ -28,7 +28,7 @@ fn selection_matrix(
 ///|
 fn selection_score(
   rows : Array[Array[Double]],
-  indices : Array[Int],
+  indices : Array[Int32],
 ) -> Double? raise DesignError {
   log_determinant(information(selection_matrix(rows, indices)))
 }
@@ -36,9 +36,9 @@ fn selection_score(
 ///|
 fn seed_selection(
   rows : Array[Array[Double]],
-  count : Int,
-  fixed : Array[Int],
-) -> Array[Int] raise DesignError {
+  count : Int32,
+  fixed : Array[Int32],
+) -> Array[Int32] raise DesignError {
   let selected = fixed.copy()
   let mut rank = if selected.length() == 0 {
     0
@@ -99,9 +99,9 @@ fn seed_selection(
 fn improve_selection(
   candidates : Plan,
   model : Array[Term],
-  indices : Array[Int],
-  locked : Int,
-  passes : Int,
+  indices : Array[Int32],
+  locked : Int32,
+  passes : Int32,
 ) -> OptimalResult raise DesignError {
   let rows = design_matrix(candidates, model)
   let selected = indices.copy()
@@ -163,8 +163,8 @@ fn improve_selection(
 fn optimal_budget(
   candidates : Plan,
   model : Array[Term],
-  count : Int,
-  passes : Int,
+  count : Int32,
+  passes : Int32,
 ) -> Unit raise DesignError {
   validate_plan(candidates)
   validate_terms(model, candidates.factors.length())
@@ -196,8 +196,8 @@ fn optimal_budget(
 pub fn d_optimal(
   candidates : Plan,
   model : Array[Term],
-  count : Int,
-  passes? : Int = 4,
+  count : Int32,
+  passes~ : Int32 = 4,
 ) -> OptimalResult raise DesignError {
   optimal_budget(candidates, model, count, passes)
   let rows = design_matrix(candidates, model)

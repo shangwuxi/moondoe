@@ -2,9 +2,9 @@
 pub fn augment_optimal(
   candidates : Plan,
   model : Array[Term],
-  fixed_indices : Array[Int],
-  total_runs : Int,
-  passes? : Int = 4,
+  fixed_indices : Array[Int32],
+  total_runs : Int32,
+  passes~ : Int32 = 4,
 ) -> OptimalResult raise DesignError {
   optimal_budget(candidates, model, total_runs, passes)
   if fixed_indices.length() > total_runs {
@@ -29,9 +29,9 @@ pub fn augment_optimal(
 pub fn refine_selection(
   candidates : Plan,
   model : Array[Term],
-  initial : Array[Int],
-  locked_prefix? : Int = 0,
-  passes? : Int = 4,
+  initial : Array[Int32],
+  locked_prefix~ : Int32 = 0,
+  passes~ : Int32 = 4,
 ) -> OptimalResult raise DesignError {
   optimal_budget(candidates, model, initial.length(), passes)
   if locked_prefix < 0 || locked_prefix > initial.length() {

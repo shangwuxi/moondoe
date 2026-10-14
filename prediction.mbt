@@ -21,7 +21,7 @@ pub fn predict(
 pub fn covariance(
   a : Array[Array[Double]],
   variance : Double,
-  weights? : Array[Double] = [],
+  weights~ : Array[Double] = [],
 ) -> Array[Array[Double]] raise DesignError {
   require_number(variance)
   if variance < 0.0 {

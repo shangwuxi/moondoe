@@ -1,0 +1,257 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "shangwuxi/moondoe"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn actual_points(Plan) -> Array[Array[Double]] raise DesignError
+
+pub fn add_centers(Plan, Int, block? : Int) -> Plan raise DesignError
+
+pub fn alias_matrix(Array[Array[Double]], Array[Array[Double]], tol? : Double) -> Array[Array[Double]] raise DesignError
+
+pub fn aliases(Int, Int, Array[Generator]) -> Array[DefiningWord] raise DesignError
+
+pub fn augment_optimal(Plan, Array[Term], Array[Int], Int, passes? : Int) -> OptimalResult raise DesignError
+
+pub fn balanced_blocks(Plan, Int, Int) -> Plan raise DesignError
+
+pub fn block_counts(Plan) -> Array[(Int, Int)] raise DesignError
+
+pub fn box_behnken(Array[Factor], centers? : Int) -> Plan raise DesignError
+
+pub fn central_composite(Array[Factor], Double, centers? : Int) -> Plan raise DesignError
+
+pub fn coded_plan(Array[Factor], Array[Array[Double]]) -> Plan raise DesignError
+
+pub fn covariance(Array[Array[Double]], Double, weights? : Array[Double]) -> Array[Array[Double]] raise DesignError
+
+pub fn csv_records(String) -> Array[Array[String]] raise DesignError
+
+pub fn d_optimal(Plan, Array[Term], Int, passes? : Int) -> OptimalResult raise DesignError
+
+pub fn decode(Factor, Double) -> Double raise DesignError
+
+pub fn defining_relation(Int, Array[Generator]) -> Array[DefiningWord] raise DesignError
+
+pub fn design_matrix(Plan, Array[Term]) -> Array[Array[Double]] raise DesignError
+
+pub fn diagnose(Plan, Array[Term], tol? : Double) -> Diagnostics raise DesignError
+
+pub fn diagnostics_json(Plan, Array[Term]) -> String raise DesignError
+
+pub fn effect_name(Int, Array[String]) -> String raise DesignError
+
+pub fn encode(Factor, Double) -> Double raise DesignError
+
+pub fn evaluate_terms(Array[Double], Array[Term]) -> Array[Double] raise DesignError
+
+pub fn factor(String, Double, Double) -> Factor raise DesignError
+
+pub fn factorial(Array[Factor], Array[Int], centers? : Int) -> Plan raise DesignError
+
+pub fn filter_candidates(Plan, Array[LinearConstraint], tol? : Double) -> Plan raise DesignError
+
+pub fn filter_points(Plan, (Array[Double]) -> Bool) -> Plan raise DesignError
+
+pub fn fit_plan(Plan, Array[Term], Array[Double]) -> Fit raise DesignError
+
+pub fn foldover(Plan, Int, include_original? : Bool) -> Plan raise DesignError
+
+pub fn fraction(Array[Factor], Int, Array[Generator]) -> Plan raise DesignError
+
+pub fn gradient(Array[Double], Array[Term], Array[Double]) -> Array[Double] raise DesignError
+
+pub fn information(Array[Array[Double]], weights? : Array[Double]) -> Array[Array[Double]] raise DesignError
+
+pub fn inverse(Array[Array[Double]], tol? : Double) -> Array[Array[Double]] raise DesignError
+
+pub fn least_squares(Array[Array[Double]], Array[Double], weights? : Array[Double], tol? : Double) -> Fit raise DesignError
+
+pub fn leverage(Array[Array[Double]]) -> Array[Double] raise DesignError
+
+pub fn log_determinant(Array[Array[Double]], tol? : Double) -> Double? raise DesignError
+
+pub fn matrix_rank(Array[Array[Double]], tol? : Double) -> Int raise DesignError
+
+pub fn multiply(Array[Array[Double]], Array[Array[Double]]) -> Array[Array[Double]] raise DesignError
+
+pub fn partition_error(Plan, Array[Term], Array[Double], separate_blocks? : Bool) -> ErrorPartition raise DesignError
+
+pub fn physical_plan(Array[Factor], Array[Array[Double]]) -> Plan raise DesignError
+
+pub fn plan(Array[Factor], Array[Run]) -> Plan raise DesignError
+
+pub fn plan_csv(Plan) -> String raise DesignError
+
+pub fn plan_from_csv(String, Array[Factor]) -> Plan raise DesignError
+
+pub fn plan_from_json(String) -> Plan raise DesignError
+
+pub fn plan_json(Plan) -> String raise DesignError
+
+pub fn predict(Array[Double], Array[Term], Array[Double]) -> Double raise DesignError
+
+pub fn prediction_variance(Array[Double], Array[Array[Double]]) -> Double raise DesignError
+
+pub fn randomize(Plan, Int, within_blocks? : Bool) -> Plan raise DesignError
+
+pub fn refine_selection(Plan, Array[Term], Array[Int], locked_prefix? : Int, passes? : Int) -> OptimalResult raise DesignError
+
+pub fn replicate(Plan, Int) -> Plan raise DesignError
+
+pub fn resolution(Int, Array[Generator]) -> Int? raise DesignError
+
+pub fn standardized_residuals(Array[Array[Double]], Fit) -> Array[Double?] raise DesignError
+
+pub fn terms(Array[Factor], Int) -> Array[Term] raise DesignError
+
+pub fn transpose(Array[Array[Double]]) -> Array[Array[Double]] raise DesignError
+
+pub fn two_level(Array[Factor], centers? : Int) -> Plan raise DesignError
+
+pub fn unique_points(Plan) -> Plan raise DesignError
+
+pub fn validate_plan(Plan) -> Unit raise DesignError
+
+pub fn variance_profile(Plan, Array[Term], Array[Array[Double]]) -> Array[Double] raise DesignError
+
+pub fn within_bounds(Plan) -> Array[String] raise DesignError
+
+// Errors
+pub suberror DesignError {
+  Invalid(String)
+  Budget(String)
+  Singular(String)
+} derive(Eq, @debug.Debug)
+pub fn DesignError::equal(Self, Self) -> Bool
+pub fn DesignError::not_equal(Self, Self) -> Bool
+pub fn DesignError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub(all) struct AliasPair {
+  left : String
+  right : String
+  correlation : Double
+} derive(Eq, @debug.Debug)
+pub fn AliasPair::equal(Self, Self) -> Bool
+pub fn AliasPair::not_equal(Self, Self) -> Bool
+pub fn AliasPair::to_repr(Self) -> @debug.Repr
+
+pub(all) struct DefiningWord {
+  mask : Int
+  sign : Int
+} derive(Eq, @debug.Debug)
+pub fn DefiningWord::equal(Self, Self) -> Bool
+pub fn DefiningWord::not_equal(Self, Self) -> Bool
+pub fn DefiningWord::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Diagnostics {
+  runs : Int
+  terms : Int
+  rank : Int
+  residual_dof : Int
+  estimable : Bool
+  zero_columns : Array[String]
+  exact_aliases : Array[AliasPair]
+  max_abs_correlation : Double
+  log_determinant : Double?
+} derive(Eq, @debug.Debug)
+pub fn Diagnostics::equal(Self, Self) -> Bool
+pub fn Diagnostics::not_equal(Self, Self) -> Bool
+pub fn Diagnostics::to_repr(Self) -> @debug.Repr
+
+pub(all) struct ErrorPartition {
+  residual_sse : Double
+  pure_error_sse : Double
+  lack_of_fit_sse : Double
+  pure_error_dof : Int
+  lack_of_fit_dof : Int
+  f_ratio : Double?
+  groups : Int
+} derive(Eq, @debug.Debug)
+pub fn ErrorPartition::equal(Self, Self) -> Bool
+pub fn ErrorPartition::not_equal(Self, Self) -> Bool
+pub fn ErrorPartition::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Factor {
+  name : String
+  low : Double
+  high : Double
+} derive(Eq, @debug.Debug)
+pub fn Factor::equal(Self, Self) -> Bool
+pub fn Factor::not_equal(Self, Self) -> Bool
+pub fn Factor::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Fit {
+  coefficients : Array[Double]
+  fitted : Array[Double]
+  residuals : Array[Double]
+  sse : Double
+  dof : Int
+  variance : Double?
+} derive(Eq, @debug.Debug)
+pub fn Fit::equal(Self, Self) -> Bool
+pub fn Fit::not_equal(Self, Self) -> Bool
+pub fn Fit::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Generator {
+  mask : Int
+  sign : Int
+} derive(Eq, @debug.Debug)
+pub fn Generator::equal(Self, Self) -> Bool
+pub fn Generator::not_equal(Self, Self) -> Bool
+pub fn Generator::to_repr(Self) -> @debug.Repr
+
+pub(all) struct LinearConstraint {
+  name : String
+  coefficients : Array[Double]
+  upper : Double
+} derive(Eq, @debug.Debug)
+pub fn LinearConstraint::equal(Self, Self) -> Bool
+pub fn LinearConstraint::not_equal(Self, Self) -> Bool
+pub fn LinearConstraint::to_repr(Self) -> @debug.Repr
+
+pub(all) struct OptimalResult {
+  plan : Plan
+  indices : Array[Int]
+  initial_logdet : Double
+  final_logdet : Double
+  improvements : Array[Double]
+  exchanges : Int
+  converged : Bool
+} derive(Eq, @debug.Debug)
+pub fn OptimalResult::equal(Self, Self) -> Bool
+pub fn OptimalResult::not_equal(Self, Self) -> Bool
+pub fn OptimalResult::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Plan {
+  factors : Array[Factor]
+  runs : Array[Run]
+} derive(Eq, @debug.Debug)
+pub fn Plan::equal(Self, Self) -> Bool
+pub fn Plan::not_equal(Self, Self) -> Bool
+pub fn Plan::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Run {
+  id : String
+  block : Int
+  point : Array[Double]
+} derive(Eq, @debug.Debug)
+pub fn Run::equal(Self, Self) -> Bool
+pub fn Run::not_equal(Self, Self) -> Bool
+pub fn Run::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Term {
+  name : String
+  powers : Array[Int]
+} derive(Eq, @debug.Debug)
+pub fn Term::equal(Self, Self) -> Bool
+pub fn Term::not_equal(Self, Self) -> Bool
+pub fn Term::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits

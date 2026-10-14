@@ -1,7 +1,7 @@
 ///|
 pub fn inverse(
   a : Array[Array[Double]],
-  tol? : Double = 1.0e-10,
+  tol~ : Double = 1.0e-10,
 ) -> Array[Array[Double]] raise DesignError {
   tolerance(tol)
   let (n, p) = matrix_shape(a)
@@ -67,7 +67,7 @@ pub fn inverse(
 ///|
 pub fn log_determinant(
   a : Array[Array[Double]],
-  tol? : Double = 1.0e-10,
+  tol~ : Double = 1.0e-10,
 ) -> Double? raise DesignError {
   tolerance(tol)
   let (n, p) = matrix_shape(a)

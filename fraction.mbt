@@ -1,7 +1,7 @@
 ///|
 pub(all) struct Generator {
-  mask : Int
-  sign : Int
+  mask : Int32
+  sign : Int32
 } derive(Debug, Eq)
 
 ///|
@@ -13,7 +13,7 @@ pub extend Generator with Eq::{equal, not_equal}
 ///|
 pub fn fraction(
   factors : Array[Factor],
-  base : Int,
+  base : Int32,
   generators : Array[Generator],
 ) -> Plan raise DesignError {
   validate_factors(factors)

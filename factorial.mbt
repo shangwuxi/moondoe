@@ -1,8 +1,8 @@
 ///|
 pub fn factorial(
   factors : Array[Factor],
-  levels : Array[Int],
-  centers? : Int = 0,
+  levels : Array[Int32],
+  centers~ : Int32 = 0,
 ) -> Plan raise DesignError {
   validate_factors(factors)
   if levels.length() != factors.length() {
@@ -38,7 +38,7 @@ pub fn factorial(
 ///|
 pub fn two_level(
   factors : Array[Factor],
-  centers? : Int = 0,
+  centers~ : Int32 = 0,
 ) -> Plan raise DesignError {
   factorial(factors, Array::make(factors.length(), 2), centers~)
 }
