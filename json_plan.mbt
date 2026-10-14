@@ -153,7 +153,10 @@ pub fn diagnostics_json(
     "zero_columns": d.zero_columns.to_json(),
     "exact_aliases": Json::array(aliases),
     "max_abs_correlation": d.max_abs_correlation.to_json(),
-    "log_determinant": d.log_determinant.to_json(),
+    "log_determinant": match d.log_determinant {
+      Some(x) => x.to_json()
+      None => Json::null()
+    },
   }).stringify()
 }
 

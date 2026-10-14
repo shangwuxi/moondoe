@@ -1,0 +1,5 @@
+import {
+  "shangwuxi/moondoe" @doe,
+}
+
+pkgtype(kind: "executable")
