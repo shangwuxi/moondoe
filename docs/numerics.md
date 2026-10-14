@@ -1,0 +1,59 @@
+# Numerical contracts and limitations
+
+All accepted scalars must satisfy `x == x && abs(x) <= 1e100`. This is intentionally stricter
+than IEEE finiteness. Intermediate/results are range checked where they leave numerical routines.
+Finite input alone cannot prevent all rounding, underflow, ill-conditioning or cancellation.
+
+## Rank, fits and information
+
+- Rank: columns divided by their max absolute magnitude; partial-pivot elimination;
+  pivots <= `tol` are absent. Threshold is relative to initially equilibrated columns.
+- Least squares: positive weights, square-root weighting, max-column equilibration,
+  pivoted two-pass modified Gram–Schmidt, then back substitution and unit restoration.
+  Squared remaining-column norm <= `tol²` is rank deficient. This is not Householder QR/SVD;
+  difficult ill-conditioned problems require an independent mature solver.
+- Inverse: square matrix, initial row max equilibration, partial pivoting, pivot <= `tol`
+  rejects. No pseudoinverse, sparse solver or condition-number estimate.
+- SPD logdet: symmetry check, diagonal equilibration, Cholesky positive-pivot test.
+  Nonpositive diagonal/pivot yields None; asymmetric shape/content throws Invalid.
+  None is an identifiability warning, not a valid determinant of an indefinite matrix.
+- Weighted information: X'WX with strictly positive weights. `covariance` is
+  `variance*(X'WX)^(-1)`, not robust/sandwich covariance. Forming X'X squares conditioning.
+  Leverage and variance profiles use this route, even when a fit used QR.
+
+Rank estimators and Cholesky can disagree near tolerance; no assertion forces them to agree.
+Diagnostics use **uncentered column cosine**, not Pearson correlation. `exact_aliases` means
+absolute cosine within tolerance of 1; it is an approximate signed collinearity diagnostic.
+Polynomial term order is intercept, main effects, pair interactions, then squares.
+
+## Residuals and prediction
+
+`least_squares` SSE is weighted residual SSE; stored residuals/fitted values remain in original
+response units. `dof=n-p`; estimated variance is SSE/dof, None for saturated designs.
+`fit_plan`, `leverage`, `partition_error` and `standardized_residuals` are unweighted.
+Do not pass a weighted Fit to standardized_residuals expecting weighted leverage correction.
+
+Prediction variance is row'Cov(row), a mean-response variance, not future-observation variance.
+`variance_profile` uses unit residual variance; caller scales it for an estimated variance.
+Gradient is with respect to **coded** coordinates. Physical-coordinate gradients require the
+linear coding chain rule. The polynomial alone does not enforce factor bounds.
+
+Pure-error groups require exact coordinate equality and by default equal block IDs. Replicate
+means use reference-relative summation; SS partitions clamp only small negative rounding error.
+No replicates/saturated fits/zero pure error can yield absent F ratio. Ratios are descriptive;
+no p-value, distribution calibration, hypothesis rejection or uncertainty interval is implemented.
+
+## Budgets and optimality
+
+D exchange evaluates finite candidates with recomputed information/Cholesky; improvements
+must exceed absolute `1e-10` in logdet. It accepts a local rank seed and can reject numerically
+singular feasible sets. Protected rows are immutable; rank completion may need more slots than
+available even if a different seed would work. No global optimum promise is made.
+
+The work guard `runs*candidates*(passes+runs)*terms³ <= 100000000` is a conservative declared
+factorization estimate, not CPU instructions/time. Validation/alias analysis add work.
+All general design routines bound allocation, but 4096 runs can still incur quadratic validation.
+Web/server callers should also enforce time/memory and input-size limits outside this library.
+
+Small analytical tests validate equations and boundaries. They cannot establish accuracy for
+all data scales, pathological nearly dependent designs or safety-critical scientific conclusions.
