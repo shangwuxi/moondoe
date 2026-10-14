@@ -2,6 +2,7 @@
 pub suberror DesignError {
   Invalid(String)
   Budget(String)
+  Singular(String)
 } derive(Debug, Eq)
 
 ///|
