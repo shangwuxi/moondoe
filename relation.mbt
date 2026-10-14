@@ -26,7 +26,10 @@ pub fn defining_relation(
   base : Int,
   generators : Array[Generator],
 ) -> Array[DefiningWord] raise DesignError {
-  if base < 1 || base + generators.length() > 16 || generators.length() > 10 {
+  if base < 1 ||
+    base > 16 ||
+    generators.length() > 10 ||
+    base > 16 - generators.length() {
     raise Budget("defining relation exceeds factor/word budget")
   }
   let words : Array[DefiningWord] = [{ mask: 0, sign: 1, }]

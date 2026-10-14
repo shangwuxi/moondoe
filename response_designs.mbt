@@ -14,7 +14,7 @@ pub fn central_composite(
   }
   let core = two_level(factors)
   let points = [ for r in core.runs => r.point.copy() ]
-  if centers < 0 || points.length() + 2 * factors.length() + centers > 4096 {
+  if centers < 0 || centers > 4096 - points.length() - 2 * factors.length() {
     raise Budget("CCD run budget exceeded")
   }
   for j in 0..<factors.length() {
