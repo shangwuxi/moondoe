@@ -61,3 +61,11 @@ MoonBelief（信念推理）、MoonCSP（约束求解）的已预留/已完成�
 交付前同日再次反向查询 GitHub `fractional factorial` / `Box-Behnken` MoonBit 代码（100上限）为空，
 MoonCakes `D-optimal`（100上限）返回模糊命中，重新检查已相邻 A/B 模块；不能把零命中当唯一性。
 自编验收明确落在别名群/秩→foldover、二次响应面、保护选点三个独立复用工作流，未转为其他已预留题目。
+
+
+## 2026-10-20 补丁发布前复核
+
+0.1.1不扩展选题范围。再次执行 `moon search` 的 experimental、factorial、D-optimal、Box-Behnken、identifiability、moondoe 六组检索（每组上限100）。experimental命中100模块，存在截断；其余分别27、10、1、1、10模块，模糊命中不等于DOE实现。
+最近邻仍是 `zhaoyuanjuns/moonbit_extractor@0.1.2`（高度相邻的全因子、随机化、区组及提取工程回归）和 `pla678889/moon-experiment@0.2.3`（不同任务的A/B检验）；重新获取它们及整数阶乘误命中包的公开归档，与本日已逐文件审阅的版本摘要一致。
+GitHub反向检索 Box-Behnken、D-optimal、fractional factorial（MoonBit，上限100）；D-optimal仍只命中已查过的CFD离散格式文件，fractional/factorial模糊命中为符号数学/解析器等，不据标题宣称为设计功能。注册表完整167节已读取，重新比较7个含相关词汇的完整指纹/目录节；其它目录/网络协议/特性策略任务不是本项目设计闭环。
+结论限已记录检索范围：未发现有符号定义群、辨识诊断、响应面与保护候选增广这一完整闭环的成熟直接替代。全因子/回归等单项能力已存在，不作原创性或全网唯一保证；检索截断、索引滞后及未检全源码仍是限制。

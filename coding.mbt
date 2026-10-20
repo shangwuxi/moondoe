@@ -2,7 +2,13 @@
 pub fn decode(f : Factor, coded : Double) -> Double raise DesignError {
   ignore(factor(f.name, f.low, f.high))
   require_number(coded)
-  let value = f.low / 2.0 + f.high / 2.0 + coded * (f.high / 2.0 - f.low / 2.0)
+  if coded == -1.0 {
+    return f.low
+  }
+  if coded == 1.0 {
+    return f.high
+  }
+  let value = f.low + (coded + 1.0) / 2.0 * (f.high - f.low)
   require_number(value)
   value
 }
@@ -11,8 +17,13 @@ pub fn decode(f : Factor, coded : Double) -> Double raise DesignError {
 pub fn encode(f : Factor, actual : Double) -> Double raise DesignError {
   ignore(factor(f.name, f.low, f.high))
   require_number(actual)
-  let value = (actual - (f.low / 2.0 + f.high / 2.0)) /
-    (f.high / 2.0 - f.low / 2.0)
+  if actual == f.low {
+    return -1.0
+  }
+  if actual == f.high {
+    return 1.0
+  }
+  let value = (actual - f.low) / (f.high - f.low) * 2.0 - 1.0
   require_number(value)
   value
 }

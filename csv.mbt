@@ -28,7 +28,11 @@ pub fn plan_csv(p : Plan) -> String raise DesignError {
     }
     lines.push(fields.join(","))
   }
-  lines.join("\r\n") + "\r\n"
+  let text = lines.join("\r\n") + "\r\n"
+  if text.length() > 2000000 {
+    raise Budget("CSV exceeds two million UTF-16 units")
+  }
+  text
 }
 
 ///|

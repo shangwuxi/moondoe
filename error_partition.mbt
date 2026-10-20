@@ -67,7 +67,11 @@ pub fn partition_error(
   let pure_dof = p.runs.length() - members.length()
   let lack_dof = members.length() - model.length()
   let ratio = if pure_dof > 0 && lack_dof > 0 && pure > 0.0 {
-    Some(lack / lack_dof.to_double() / (pure / pure_dof.to_double()))
+    // Divide sums of squares first: dividing a subnormal pure SS by its
+    // degrees of freedom can underflow before the ratio is formed.
+    let value = lack / pure * (pure_dof.to_double() / lack_dof.to_double())
+    require_number(value)
+    Some(value)
   } else {
     None
   }
@@ -105,8 +109,18 @@ pub fn standardized_residuals(
   let result = []
   for i, e in fit.residuals {
     require_number(e)
-    let denom = variance * (1.0 - h[i])
-    result.push(if denom > 1.0e-14 { Some(e / denom.sqrt()) } else { None })
+    let remaining = 1.0 - h[i]
+    result.push(
+      if variance > 0.0 && remaining > 1.0e-14 {
+        // The leverage threshold is dimensionless. Separate square roots keep
+        // valid small response units from underflowing the denominator product.
+        let value = e / variance.sqrt() / remaining.sqrt()
+        require_number(value)
+        Some(value)
+      } else {
+        None
+      },
+    )
   }
   result
 }

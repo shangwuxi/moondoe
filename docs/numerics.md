@@ -14,7 +14,8 @@ Finite input alone cannot prevent all rounding, underflow, ill-conditioning or c
   difficult ill-conditioned problems require an independent mature solver.
 - Inverse: square matrix, initial row max equilibration, partial pivoting, pivot <= `tol`
   rejects. No pseudoinverse, sparse solver or condition-number estimate.
-- SPD logdet: symmetry check, diagonal equilibration, Cholesky positive-pivot test.
+- SPD logdet: pairwise relative symmetry check without an absolute unit floor, diagonal equilibration, Cholesky positive-pivot test.
+  Every pair is checked before nonpositive-diagonal classification; tolerance is relative to the sum of both off-diagonal magnitudes.
   Nonpositive diagonal/pivot yields None; asymmetric shape/content throws Invalid.
   None is an identifiability warning, not a valid determinant of an indefinite matrix.
 - Weighted information: X'WX with strictly positive weights. `covariance` is
@@ -30,10 +31,12 @@ Polynomial term order is intercept, main effects, pair interactions, then square
 
 `least_squares` SSE is weighted residual SSE; stored residuals/fitted values remain in original
 response units. `dof=n-p`; estimated variance is SSE/dof, None for saturated designs.
+Standardized residuals require positive variance and dimensionless `1-h > 1e-14`; they divide by separate square roots to avoid a tiny denominator product. Zero variance or effectively unit leverage yields None.
 `fit_plan`, `leverage`, `partition_error` and `standardized_residuals` are unweighted.
 Do not pass a weighted Fit to standardized_residuals expecting weighted leverage correction.
 
 Prediction variance is row'Cov(row), a mean-response variance, not future-observation variance.
+A negative quadratic is rejected unless its magnitude is at most `1e-10` of the sum of absolute quadratic contributions; only that relative cancellation error is clamped to zero. This is a query-specific check, not a full PSD certification of caller-supplied covariance.
 `variance_profile` uses unit residual variance; caller scales it for an estimated variance.
 Gradient is with respect to **coded** coordinates. Physical-coordinate gradients require the
 linear coding chain rule. The polynomial alone does not enforce factor bounds.
@@ -42,6 +45,7 @@ Pure-error groups require exact coordinate equality and by default equal block I
 means use reference-relative summation; SS partitions clamp only small negative rounding error.
 No replicates/saturated fits/zero pure error can yield absent F ratio. Ratios are descriptive;
 no p-value, distribution calibration, hypothesis rejection or uncertainty interval is implemented.
+The F ratio is range-checked like other scalar results; a positive but very small pure-error SS cannot cause an unchecked Infinity result.
 
 ## Budgets and optimality
 

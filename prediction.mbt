@@ -50,13 +50,16 @@ pub fn prediction_variance(
     require_number(x)
   }
   let mut value = 0.0
+  let mut magnitude = 0.0
   for i in 0..<n {
     for j in 0..<n {
-      value += row[i] * covariance[i][j] * row[j]
+      let contribution = row[i] * covariance[i][j] * row[j]
+      value += contribution
+      magnitude += contribution.abs()
     }
   }
   require_number(value)
-  if value < -1.0e-10 {
+  if value < -1.0e-10 * magnitude {
     raise Invalid("negative quadratic variance; covariance not PSD")
   }
   if value < 0.0 {
@@ -95,6 +98,9 @@ pub fn gradient(
   model : Array[Term],
   point : Array[Double],
 ) -> Array[Double] raise DesignError {
+  if point.length() == 0 || point.length() > 16 {
+    raise Budget("point dimension must be 1..16")
+  }
   validate_terms(model, point.length())
   if coefficients.length() != model.length() {
     raise Invalid("gradient coefficient count mismatch")

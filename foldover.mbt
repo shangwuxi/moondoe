@@ -12,6 +12,7 @@ pub fn foldover(
     raise Budget("foldover exceeds 4096 runs")
   }
   let runs : Array[Run] = if include_original { p.runs.copy() } else { [] }
+  let used = [ for r in runs => r.id ]
   for r in p.runs {
     let point = r.point.copy()
     for j in 0..<point.length() {
@@ -19,7 +20,9 @@ pub fn foldover(
         point[j] = -point[j]
       }
     }
-    runs.push({ id: "fold:\{r.id}", block: r.block, point, })
+    let id = fresh_name("fold:\{r.id}", used, 128, "fold:")
+    used.push(id)
+    runs.push({ id, block: r.block, point, })
   }
   plan(p.factors, runs)
 }
@@ -31,9 +34,12 @@ pub fn replicate(p : Plan, copies : Int32) -> Plan raise DesignError {
     raise Budget("replication exceeds run budget")
   }
   let runs : Array[Run] = []
+  let used : Array[String] = []
   for k in 0..<copies {
     for r in p.runs {
-      runs.push({ ..r, id: "rep\{k+1}:\{r.id}", })
+      let id = fresh_name("rep\{k+1}:\{r.id}", used, 128, "rep:")
+      used.push(id)
+      runs.push({ ..r, id, })
     }
   }
   plan(p.factors, runs)
@@ -50,12 +56,11 @@ pub fn add_centers(
     raise Budget("center augmentation exceeds run budget")
   }
   let runs = p.runs.copy()
+  let used = [ for r in runs => r.id ]
   for k in 0..<count {
-    runs.push({
-      id: "center\{k+1}",
-      block,
-      point: Array::make(p.factors.length(), 0.0),
-    })
+    let id = fresh_name("center\{k+1}", used, 128, "center")
+    used.push(id)
+    runs.push({ id, block, point: Array::make(p.factors.length(), 0.0), })
   }
   plan(p.factors, runs)
 }

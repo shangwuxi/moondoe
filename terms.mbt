@@ -43,6 +43,12 @@ pub fn terms(
       result.push({ name: "\{factors[j].name}^2", powers, })
     }
   }
+  let used : Array[String] = []
+  for i, t in result {
+    let name = fresh_name(t.name, used, 256, "Term")
+    used.push(name)
+    result[i] = { ..t, name, }
+  }
   validate_terms(result, k)
   result
 }

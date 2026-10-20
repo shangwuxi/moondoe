@@ -143,3 +143,28 @@ pub extend Plan with @debug.Debug::{to_repr}
 
 ///|
 pub extend Plan with Eq::{equal, not_equal}
+
+///|
+// Keep ordinary labels unchanged, but never collide with an existing namespace.
+// At most used.length() + 1 candidates are needed by the pigeonhole principle.
+fn fresh_name(
+  preferred : String,
+  used : Array[String],
+  limit : Int32,
+  prefix : String,
+) -> String {
+  if preferred.length() <= limit && !used.contains(preferred) {
+    return preferred
+  }
+  let occupied : Map[String, Bool] = Map([])
+  for name in used {
+    occupied.set(name, true)
+  }
+  let mut index = 1
+  let mut candidate = "\{prefix}\{index}"
+  while occupied.contains(candidate) {
+    index += 1
+    candidate = "\{prefix}\{index}"
+  }
+  candidate
+}

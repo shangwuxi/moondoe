@@ -77,11 +77,15 @@ pub fn plan_json(p : Plan) -> String raise DesignError {
       })
     }
   ]
-  Json::object({
+  let text = Json::object({
     "schema": Json("moondoe/1"),
     "factors": Json::array(fs),
     "runs": Json::array(rs),
   }).stringify()
+  if text.length() > 2000000 {
+    raise Budget("JSON exceeds two million UTF-16 units")
+  }
+  text
 }
 
 ///|

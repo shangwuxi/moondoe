@@ -3,9 +3,12 @@
 `Factor` is a continuous physical interval. `Run` carries stable provenance ID, nonnegative
 block ID and coded point. `Plan` groups a factor schema and ordered runs. Constructors
 validate uniqueness, shape and numeric bounds and copy mutable arrays. Operations preserve
-factor order; ID prefixes identify replicated/folded runs. Conflicting/generated IDs or IDs
-longer than 128 are errors, not silently renamed. Repeated `add_centers` can conflict with
-existing center IDs; users can construct explicitly named runs when merging many stages.
+factor order and original run records. Ordinary generated ID prefixes identify replicated/folded
+runs. Since 0.1.1, generated IDs that collide or exceed 128 UTF-16 units
+receive deterministic bounded fallback names; model labels use the same strategy at 256 units.
+Fallback names do not encode the complete source ID. Explicit user-supplied duplicate/overlong
+IDs still fail construction. The published 0.1.0 implementation instead errors on generated
+collisions/overlong IDs, including repeated center augmentation; it does not contain this fix.
 
 Data pipeline:
 1. Checked constructors and coordinate transforms (`model`, `coding`).

@@ -74,19 +74,23 @@ pub fn log_determinant(
   if n != p {
     raise Invalid("positive determinant requires square matrix")
   }
+  // Check every pair before any nonpositive-diagonal early return. The
+  // tolerance has no fixed unit floor, so changing units cannot hide asymmetry.
+  for i in 0..<n {
+    for j in 0..<i {
+      let delta = (a[i][j] - a[j][i]).abs()
+      let magnitude = a[i][j].abs() + a[j][i].abs()
+      if delta > tol * magnitude {
+        raise Invalid("matrix must be symmetric")
+      }
+    }
+  }
   let scales = Array::make(n, 0.0)
   for i in 0..<n {
     if a[i][i] <= 0.0 {
       return None
     }
     scales[i] = a[i][i].sqrt()
-    for j in 0..<i {
-      let delta = (a[i][j] - a[j][i]).abs()
-      let magnitude = a[i][j].abs() + a[j][i].abs() + 1.0
-      if delta > tol * magnitude {
-        raise Invalid("matrix must be symmetric")
-      }
-    }
   }
   let l = zeros(n, n)
   let mut value = 0.0
