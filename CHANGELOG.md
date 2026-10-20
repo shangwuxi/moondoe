@@ -11,6 +11,7 @@
 - Range-check lack-of-fit F ratios and avoid premature subnormal denominator underflow.
 - Scale negative prediction-variance tolerance by the absolute quadratic contributions.
 - Add 18 regression tests, including maximum-run, supplementary-Unicode IDs and numerical scale families.
+- Pin versioned official CI toolchain URLs and SHA-256 instead of relying on moving latest objects.
 - Preserve public API signatures; invalid inputs and out-of-budget results are now rejected consistently.
 
 ## 0.1.0 — 2026-10-14
