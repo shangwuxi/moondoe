@@ -22,4 +22,8 @@ Conceptual comparison targets (not linked runtime dependencies or automated diff
 
 The 3×3 linear-model determinant oracle is independently expanded as a polynomial;
 weighted coefficients are checked against the explicitly written 2×2 normal equations.
-No R/Python reference run, external benchmark, proof or complete equivalence is claimed.
+The original v0.1.0 assertions did not run a full R/Python reference implementation.
+Later coordinate regression constants were checked with Python standard-library
+`fractions.Fraction` on exact binary64 inputs. Compensated summation is a standard
+error-free arithmetic technique, not an algorithm-invention claim. No external
+benchmark, formal proof or complete R/Python equivalence is claimed.

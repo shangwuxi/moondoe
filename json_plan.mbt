@@ -148,7 +148,7 @@ pub fn diagnostics_json(
       })
     }
   ]
-  Json::object({
+  let text = Json::object({
     "runs": Json(d.runs),
     "terms": Json(d.terms),
     "rank": Json(d.rank),
@@ -162,6 +162,10 @@ pub fn diagnostics_json(
       None => Json::null()
     },
   }).stringify()
+  if text.length() > 2000000 {
+    raise Budget("JSON exceeds two million UTF-16 units")
+  }
+  text
 }
 
 ///|

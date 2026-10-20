@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 — 2026-10-20
+
+- Preserve tiny signed centered physical/coded coordinates instead of collapsing distinct design points.
+- Compensate the rounded midpoint when encoding narrow intervals; retain exact endpoints and subnormal-width handling.
+- Extend the two-million UTF-16 output budget to diagnostic JSON without changing its schema.
+- Add 8 regression tests including public physical-plan fitting, exact-rational coordinate values, Unicode reports and isolated boundary cases.
+- Keep all previous tests, public signatures, runtime dependencies and supported targets unchanged.
+
 ## 0.1.1 — 2026-10-20
 
 - Allocate collision-free bounded execution IDs and polynomial labels; keep ordinary names unchanged.

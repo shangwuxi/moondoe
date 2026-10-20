@@ -4,6 +4,17 @@ All accepted scalars must satisfy `x == x && abs(x) <= 1e100`. This is intention
 than IEEE finiteness. Intermediate/results are range checked where they leave numerical routines.
 Finite input alone cannot prevent all rounding, underflow, ill-conditioning or cancellation.
 
+## Physical and coded coordinates
+
+Exact physical endpoints map to -1/+1 and back. Encoding forms the centered
+numerator `2*actual-low-high` with a compensated sum, including the midpoint's
+rounding correction for narrow intervals. Decoding uses the midpoint near coded
+zero, anchors at the closer endpoint away from the center, and avoids halving a
+subnormal span. This preserves small signed centered perturbations that an
+endpoint-first subtraction or `coded+1` would erase. It does not promise correctly
+rounded results for every interval/extrapolation or recover information already
+lost when callers construct their Double inputs.
+
 ## Rank, fits and information
 
 - Rank: columns divided by their max absolute magnitude; partial-pivot elimination;
