@@ -2,18 +2,18 @@
 set -euo pipefail
 root="${MOON_HOME:?MOON_HOME must point to an isolated toolchain directory}"
 mkdir -p "$root/lib"
-# Official 2026-10-12 snapshot. Use versioned objects, never moving latest URLs.
+# Official 2026-10-28 snapshot. Use versioned objects, never moving latest URLs.
 # SHA-256 pins archive identity; neither these pins nor ETags are vendor signatures.
-curl --fail --location --retry 2 --header 'If-Match: "6ae7c52851085cc3d4d65fd04410ef7b-12"' \
-  https://cli.moonbitlang.com/binaries/0.10.15%2B943464bfa/moonbit-linux-x86_64.tar.gz -o "$root/moonbit.tar.gz"
-curl --fail --location --retry 2 --header 'If-Match: "65ef1811c0e64c48bf01312100f7e998"' \
-  https://cli.moonbitlang.com/cores/core-0.10.15%2B943464bfa.tar.gz -o "$root/core.tar.gz"
-printf '%s  %s\n' '24b93a5409d2a4fb8e3d1b84b473f27b63476cef4418094764df96cb26b03c09' "$root/moonbit.tar.gz" | sha256sum --check --status
-printf '%s  %s\n' '96d30f4dbcc6a9e1736ef26fbdd0e8fb0e97cb01d50e55d2a0072208b8061ae5' "$root/core.tar.gz" | sha256sum --check --status
+curl --fail --location --retry 2 --header 'If-Match: "0560ebd5ba5528390cd4872766f2234b"' \
+  https://cli.moonbitlang.com/binaries/0.10.18%2B6c83a7f62/moonbit-linux-x86_64.tar.gz -o "$root/moonbit.tar.gz"
+curl --fail --location --retry 2 --header 'If-Match: "7b87b77b0d942a76fba657b809c31cdf"' \
+  https://cli.moonbitlang.com/cores/core-0.10.18%2B6c83a7f62.tar.gz -o "$root/core.tar.gz"
+printf '%s  %s\n' '0e4cde1ace98e8ef00552a937738b59c6901c4b8a004ebad71ea0e63688f63f1' "$root/moonbit.tar.gz" | sha256sum --check --status
+printf '%s  %s\n' '30a8ae1c1e1e8fde478ea742cbc928c8f4ae1f5c00090afe3f10c97be9e5da64' "$root/core.tar.gz" | sha256sum --check --status
 tar -xzf "$root/moonbit.tar.gz" -C "$root"
 tar -xzf "$root/core.tar.gz" -C "$root/lib"
 chmod +x "$root"/bin/*
 export PATH="$root/bin:$PATH"
 moon -C "$root/lib/core" bundle --warn-list -a --all
 moon version --all
-moon version --all | grep -F 'v0.10.15+943464bfa'
+moon version --all | grep -F 'v0.10.18+6c83a7f62'

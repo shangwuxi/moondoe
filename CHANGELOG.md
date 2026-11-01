@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3 — 2026-11-01
+
+- Pin official moonc 0.10.18 toolchain/core archives with SHA-256 for four-target CI.
+- Enforce the acceptance minimum moonc 0.10.16 before the shared verification workflow.
+- Regenerate interface with explicit Int32 spelling (formerly emitted as Int); preserve API semantics.
+- Update installation guidance; preserve all library code and runtime dependencies.
+
 ## 0.1.2 — 2026-10-20
 
 - Preserve tiny signed centered physical/coded coordinates instead of collapsing distinct design points.
